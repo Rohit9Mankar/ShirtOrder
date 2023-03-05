@@ -9,6 +9,7 @@ const addProductHandler=(item)=>{
 crtContxt.addItem(item);
 }
 
+
 const menuOfTshirts=crtContxt.menuItems.map((item)=>(
     <ShirtItem 
     key={item.id}
@@ -18,6 +19,9 @@ const menuOfTshirts=crtContxt.menuItems.map((item)=>(
     quantityLarge={item.quantityLarge}
     quantityMedium={item.quantityMedium}
     quantitySmall={item.quantitySmall}
+    onLargeRemove={largeHandler.bind(null,item.id)}
+    onSmallRemove={smallHandler.bind(null,item.id)}
+    onMediumRemove={mediumHandler.bind(null,item.id)}
     onAdd={addProductHandler.bind(null,item)}/>
 ));
 

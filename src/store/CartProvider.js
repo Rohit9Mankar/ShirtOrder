@@ -77,6 +77,7 @@ const CartProvider = (props) => {
         })
     };
 
+    const quantyHandler=(id)=>{}
   
     const cartContext = {
         menuItems: tshirtArray,
@@ -84,6 +85,7 @@ const CartProvider = (props) => {
         totalAmount: totalQuant,
         finalPrice:finalPrice,
         addItem: addItemHandler,
+        addQuanty:quantyHandler
     }
     
     return (
