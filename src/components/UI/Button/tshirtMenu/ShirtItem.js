@@ -12,7 +12,7 @@ return(
             <button onClick={props.onLargeRemove}>Buy large {props.quantityLarge}</button>
             <button onClick={props.onMediumRemove}>Buy medium {props.quantityMedium}</button>
             <button onClick={props.onSmallRemove}>Buy small{props.quantitySmall}</button>
-            <button onClick={props.onAdd}>Add product</button>
+            
         </div>
     </div>
 )

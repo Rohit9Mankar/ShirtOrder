@@ -1,91 +1,97 @@
 import React, { useState } from "react";
 import CartContext from "./CartContext";
 
-const dummymenu = [
-    {
-        id: "01",
-        name: "HRX Tshits",
-        description: "Lifestyle Bio wash Tshirt",
-        price: 699,
-        quantitySmall: 2,
-        quantityLarge: 100,
-        quantityMedium: 20
-    },
-    {
-        id: "02",
-        name: "Urbano Fashion",
-        description: "Slim tropical printed pure cotton",
-        price: 509,
-        quantitySmall: 10,
-        quantityLarge: 10,
-        quantityMedium: 28
-    },
-    {
-        id: "03",
-        name: "Beverly Hills Polo Club",
-        description: "Polo Collar Tshirt",
-        price: 1200,
-        quantitySmall: 5,
-        quantityLarge: 17,
-        quantityMedium: 20
-    },
-    {
-        id: "04",
-        name: "Tommy Hilfiger",
-        description: "Striped Polo Cotton Shirt",
-        price: 1999,
-        quantitySmall: 30,
-        quantityLarge: 90,
-        quantityMedium: 45,
-    }
-];
+
 const CartProvider = (props) => {
-    const [tshirtArray, setTshirtArray] = useState(dummymenu);
+    const [tshirtArray, setTshirtArray] = useState([]);
     const [cartItemArray, setCartItemArray] = useState([]);
     const [totalQuant,setTotalQuantity]=useState(0);
     const [finalPrice,setFinalPrice]=useState(0);
 
     const addItemHandler = (item) => {
 
-        const indexItem = {
-            ...item,
-            quantityLarge:  1,
-            quantityMedium:  1,
-            quantitySmall: 1
-        }
-        setCartItemArray((prev) => {
+        setTshirtArray((prev) => {
 
-            return [...prev, indexItem]
+            return [...prev, item]
         });
 
-        setTotalQuantity((prev)=>{
-            return prev+3
-        })
         setFinalPrice((prev)=>{
             return prev+(3*item.price);
+        });
+
+const inTheCart={...item,quantityLarge:0,quantityMedium:0,quantitySmall:0}
+
+        setCartItemArray((prev)=>{
+            return [...prev,inTheCart]
         })
 
-        const remIndex=tshirtArray.findIndex((ele)=>ele.id===item.id);
-        const remIndexItem=tshirtArray[remIndex];
-        setTshirtArray((prev)=>{
-            prev[remIndex]={...remIndexItem,
-                quantityLarge: remIndexItem.quantityLarge- 1,
-                quantityMedium: remIndexItem.quantityMedium- 1,
-                quantitySmall: remIndexItem.quantitySmall- 1
-            }
-            return [...prev]
-        })
     };
 
-    const quantyHandler=(id)=>{}
+const addToCartHandler=(id,size)=>{
+
+const remIndex=cartItemArray.findIndex((ele)=> ele.id===id);
+const remIndexItem=cartItemArray[remIndex];
+const mIndexItem=tshirtArray[remIndex];
+
+if(size==="large"){
+    setCartItemArray((prev)=>{
+        prev[remIndex]={...remIndexItem,
+                   quantityLarge: remIndexItem.quantityLarge+1,
+                }
+                return [...prev];
+    });
+    setTshirtArray((prev)=>{
+        prev[remIndex]={...mIndexItem,
+            quantityLarge: mIndexItem.quantityLarge-1,
+         }
+         return [...prev];
+    });
+    setTotalQuantity(totalQuant+1);
+}
+
+if(size==="small"){
+    setCartItemArray((prev)=>{
+        prev[remIndex]={...remIndexItem,
+                   quantitySmall: remIndexItem.quantitySmall+1,
+                }
+                return [...prev];
+    });
+    setTshirtArray((prev)=>{
+        prev[remIndex]={...mIndexItem,
+            quantitySmall: mIndexItem.quantitySmall-1,
+         }
+         return [...prev];
+    });
+    setTotalQuantity(totalQuant+1);
+}
+
+if(size==="medium"){
+    setCartItemArray((prev)=>{
+        prev[remIndex]={...remIndexItem,
+                   quantityMedium: remIndexItem.quantityMedium+1,
+                }
+                return [...prev];
+    });
+    setTshirtArray((prev)=>{
+        prev[remIndex]={...mIndexItem,
+            quantityMedium: mIndexItem.quantityMedium-1,
+         }
+         return [...prev];
+    });
+    setTotalQuantity(totalQuant+1);
+}
+
+}
+
   
     const cartContext = {
-        menuItems: tshirtArray,
-        cartItems: cartItemArray,
-        totalAmount: totalQuant,
-        finalPrice:finalPrice,
-        addItem: addItemHandler,
-        addQuanty:quantyHandler
+        menuItems : tshirtArray,
+        cartItems : cartItemArray,
+        totalAmount : totalQuant,
+        finalPrice :  finalPrice,
+        addItem : addItemHandler,
+        addToCart : addToCartHandler
+        
     }
     
     return (
